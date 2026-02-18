@@ -17,6 +17,8 @@ interface Polygon {
   jumlah_kk: number;
   jumlah_penduduk: number;
   ketua_rw: string;
+  jumlah_rt: number;
+  jumlah_mesjid: number;
   coordinates: [number, number][];
 }
 

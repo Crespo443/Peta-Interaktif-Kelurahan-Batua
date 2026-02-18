@@ -23,7 +23,7 @@ const MapDrawComponent: React.FC<MapDrawComponentProps> = ({
 
     // Initialize map
     if (!mapRef.current) {
-      const map = L.map("draw-map").setView([-5.154, 119.467], 14);
+      const map = L.map("draw-map").setView([-5.1565, 119.4683], 15);
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors",
@@ -35,17 +35,30 @@ const MapDrawComponent: React.FC<MapDrawComponentProps> = ({
       map.addLayer(drawnItems);
       drawnItemsRef.current = drawnItems;
 
-      // Add existing polygons as reference
+      // Add existing polygons as reference with different colors
+      const polygonColors = [
+        { color: "#3B82F6", fillColor: "#93C5FD" }, // Blue
+        { color: "#10B981", fillColor: "#6EE7B7" }, // Green
+        { color: "#F59E0B", fillColor: "#FCD34D" }, // Amber
+        { color: "#8B5CF6", fillColor: "#C4B5FD" }, // Purple
+        { color: "#EC4899", fillColor: "#F9A8D4" }, // Pink
+        { color: "#14B8A6", fillColor: "#5EEAD4" }, // Teal
+        { color: "#F97316", fillColor: "#FDBA74" }, // Orange
+      ];
+
       existingPolygons.forEach((polygon, index) => {
         const latLngs = polygon.coordinates.map(
           (coord) => [coord[1], coord[0]] as L.LatLngTuple,
         );
 
+        const colorIndex = index % polygonColors.length;
+        const colors = polygonColors[colorIndex];
+
         L.polygon(latLngs, {
-          color: "#999",
-          fillColor: "#ccc",
-          fillOpacity: 0.3,
-          weight: 1,
+          color: colors.color,
+          fillColor: colors.fillColor,
+          fillOpacity: 0.4,
+          weight: 2,
         }).addTo(map);
       });
 
@@ -74,7 +87,9 @@ const MapDrawComponent: React.FC<MapDrawComponentProps> = ({
             allowIntersection: false,
             showArea: true,
             shapeOptions: {
-              color: "#4ECDC4",
+              color: "#14B8A6",
+              fillColor: "#5EEAD4",
+              fillOpacity: 0.5,
               weight: 3,
             },
           },
@@ -170,10 +185,38 @@ const MapDrawComponent: React.FC<MapDrawComponentProps> = ({
             <li>Polygon akan tersimpan otomatis</li>
           </ol>
         )}
-        <div className="mt-3 text-xs text-gray-500">
-          {editingPolygon
-            ? "Polygon merah adalah yang sedang diedit"
-            : "Polygon abu-abu adalah area yang sudah ada"}
+        <div className="mt-3 text-xs space-y-1">
+          {editingPolygon ? (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-3 h-3 rounded-full bg-red-500"></span>
+                <span className="text-gray-600">
+                  Polygon yang sedang diedit
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
+                <span className="text-gray-600">
+                  Polygon lain (warna bervariasi)
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-3 h-3 rounded-full bg-teal-500"></span>
+                <span className="text-gray-600">
+                  Polygon yang sedang digambar
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
+                <span className="text-gray-600">
+                  Polygon yang sudah ada (warna bervariasi)
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

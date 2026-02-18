@@ -9,46 +9,63 @@ export interface PolygonData {
   jumlah_kk: number;
   jumlah_penduduk: number;
   ketua_rw: string;
+  jumlah_rt: number;
+  jumlah_mesjid: number;
   coordinates: [number, number][];
 }
 
+export type MapViewMode = "polygons" | "border" | "combined";
+
 interface MapComponentProps {
   polygons: PolygonData[];
+  borderCoordinates?: [number, number][];
+  viewMode?: MapViewMode;
   onPolygonClick?: (polygon: PolygonData) => void;
   showWhiteBackground?: boolean;
+  focusPolygonId?: string | null;
 }
 
-const COLORS = [
-  "#FF6B6B",
-  "#4ECDC4",
-  "#45B7D1",
-  "#FFA07A",
-  "#98D8C8",
-  "#F7DC6F",
-  "#BB8FCE",
+export const POLYGON_COLORS = [
+  "#EF4444",
+  "#14B8A6",
+  "#EAB308",
+  "#3B82F6",
+  "#8B5CF6",
+  "#F97316",
+  "#22C55E",
 ];
 
 const MapComponent: React.FC<MapComponentProps> = ({
   polygons,
+  borderCoordinates,
+  viewMode = "polygons",
   onPolygonClick,
   showWhiteBackground = true,
+  focusPolygonId = null,
 }) => {
   const mapRef = useRef<L.Map | null>(null);
   const maskLayerRef = useRef<L.Polygon | null>(null);
+  const borderLayerRef = useRef<L.Polygon | null>(null);
+  const polygonLayersRef = useRef<Map<string, L.Polygon>>(new Map());
   const [maskEnabled, setMaskEnabled] = useState(showWhiteBackground);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Initialize map
     if (!mapRef.current) {
-      const map = L.map("map").setView([-5.154, 119.467], 14);
+      const map = L.map("map", { zoomControl: false }).setView(
+        [-5.1565, 119.4683],
+        15,
+      );
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         maxZoom: 19,
       }).addTo(map);
+
+      // Add zoom control to bottom-right
+      L.control.zoom({ position: "bottomright" }).addTo(map);
 
       mapRef.current = map;
     }
@@ -61,89 +78,146 @@ const MapComponent: React.FC<MapComponentProps> = ({
         map.removeLayer(layer);
       }
     });
+    polygonLayersRef.current.clear();
+    borderLayerRef.current = null;
+    maskLayerRef.current = null;
 
-    // Add polygons
     const bounds: L.LatLngBounds[] = [];
-    polygons.forEach((polygon, index) => {
-      const latLngs = polygon.coordinates.map(
+
+    // Add border if viewMode is "border" or "combined"
+    if (
+      borderCoordinates &&
+      (viewMode === "border" || viewMode === "combined")
+    ) {
+      const borderLatLngs = borderCoordinates.map(
         (coord) => [coord[1], coord[0]] as L.LatLngTuple,
       );
 
-      const polygonLayer = L.polygon(latLngs, {
-        fillColor: COLORS[index % COLORS.length],
-        weight: 2,
+      const borderLayer = L.polygon(borderLatLngs, {
+        fillColor: viewMode === "border" ? "#0d9488" : "transparent",
+        weight: 3,
         opacity: 1,
-        color: "white",
-        dashArray: "3",
-        fillOpacity: 0.5,
+        color: "#0d9488",
+        fillOpacity: viewMode === "border" ? 0.15 : 0,
+        dashArray: viewMode === "combined" ? "8, 6" : undefined,
       });
 
-      polygonLayer.addTo(map);
-      bounds.push(polygonLayer.getBounds());
+      borderLayer.addTo(map);
+      borderLayerRef.current = borderLayer;
+      bounds.push(borderLayer.getBounds());
 
-      // Popup
-      const popupContent = `
-        <div class="p-2">
-          <strong class="text-lg">${polygon.nama}</strong>
-          <hr class="my-2"/>
-          <div class="text-sm">
-            <div><strong>RW:</strong> ${polygon.rw}</div>
-            <div><strong>Jumlah KK:</strong> ${polygon.jumlah_kk}</div>
-            <div><strong>Penduduk:</strong> ${polygon.jumlah_penduduk} jiwa</div>
-            <div><strong>Ketua RW:</strong> ${polygon.ketua_rw}</div>
+      if (viewMode === "border") {
+        borderLayer.bindPopup(`
+          <div style="min-width: 160px;">
+            <div style="font-weight: 700; font-size: 15px; margin-bottom: 4px; color: #0d9488;">Kelurahan Batua</div>
+            <div style="font-size: 13px; color: #475569;">Batas wilayah kelurahan</div>
           </div>
+        `);
+      }
+    }
+
+    // Add RW polygons if viewMode is "polygons" or "combined"
+    if (viewMode === "polygons" || viewMode === "combined") {
+      polygons.forEach((polygon, index) => {
+        const latLngs = polygon.coordinates.map(
+          (coord) => [coord[1], coord[0]] as L.LatLngTuple,
+        );
+
+        const color = POLYGON_COLORS[index % POLYGON_COLORS.length];
+        const isFocused = focusPolygonId === polygon.id;
+
+        const polygonLayer = L.polygon(latLngs, {
+          fillColor: color,
+          weight: isFocused ? 3 : 1.5,
+          opacity: 1,
+          color: isFocused ? color : "white",
+          fillOpacity: isFocused ? 0.6 : 0.4,
+        });
+
+        polygonLayer.addTo(map);
+        polygonLayersRef.current.set(polygon.id, polygonLayer);
+        bounds.push(polygonLayer.getBounds());
+
+        // Popup - only show name
+        const popupContent = `
+        <div style="min-width: 140px;">
+          <div style="font-weight: 700; font-size: 15px; margin-bottom: 4px; color: ${color};">${polygon.nama}</div>
+          <div style="font-size: 13px; color: #475569;">RW ${polygon.rw}</div>
         </div>
       `;
-      polygonLayer.bindPopup(popupContent);
+        polygonLayer.bindPopup(popupContent);
 
-      // Click handler
-      if (onPolygonClick) {
-        polygonLayer.on("click", () => onPolygonClick(polygon));
+        if (onPolygonClick) {
+          polygonLayer.on("click", () => onPolygonClick(polygon));
+        }
+
+        // Hover effect
+        polygonLayer.on("mouseover", () => {
+          polygonLayer.setStyle({
+            weight: 3,
+            color: color,
+            fillOpacity: 0.6,
+          });
+        });
+
+        polygonLayer.on("mouseout", () => {
+          if (focusPolygonId !== polygon.id) {
+            polygonLayer.setStyle({
+              weight: 1.5,
+              color: "white",
+              fillOpacity: 0.4,
+            });
+          }
+        });
+      });
+    } // end if viewMode polygons/combined
+
+    // Focus on selected polygon or fit all
+    if (
+      focusPolygonId &&
+      (viewMode === "polygons" || viewMode === "combined")
+    ) {
+      const layer = polygonLayersRef.current.get(focusPolygonId);
+      if (layer) {
+        map.flyToBounds(layer.getBounds(), {
+          padding: [80, 80],
+          duration: 0.5,
+        });
+        setTimeout(() => layer.openPopup(), 600);
       }
-
-      // Hover effect
-      polygonLayer.on("mouseover", () => {
-        polygonLayer.setStyle({
-          weight: 5,
-          color: "#666",
-          dashArray: "",
-          fillOpacity: 0.7,
-        });
-      });
-
-      polygonLayer.on("mouseout", () => {
-        polygonLayer.setStyle({
-          weight: 2,
-          color: "white",
-          dashArray: "3",
-          fillOpacity: 0.5,
-        });
-      });
-    });
-
-    // Fit bounds
-    if (bounds.length > 0) {
+    } else if (bounds.length > 0) {
       const group = new L.FeatureGroup(bounds.map((b) => L.rectangle(b)));
       map.fitBounds(group.getBounds());
     }
 
-    // Create inverse mask for white background
-    if (maskEnabled) {
-      createInverseMask(map, polygons);
+    // Inverse mask (only for polygon/combined modes)
+    if (maskEnabled && (viewMode === "polygons" || viewMode === "combined")) {
+      const maskSource =
+        viewMode === "combined" && borderCoordinates
+          ? [{ coordinates: borderCoordinates } as PolygonData]
+          : polygons;
+      createInverseMask(map, maskSource);
+    } else if (maskEnabled && viewMode === "border" && borderCoordinates) {
+      createInverseMask(map, [
+        { coordinates: borderCoordinates } as PolygonData,
+      ]);
     }
 
-    return () => {
-      // Cleanup handled by layer removal above
-    };
-  }, [polygons, onPolygonClick, maskEnabled]);
+    return () => {};
+  }, [
+    polygons,
+    borderCoordinates,
+    viewMode,
+    onPolygonClick,
+    maskEnabled,
+    focusPolygonId,
+  ]);
 
   const createInverseMask = (map: L.Map, polygons: PolygonData[]) => {
-    // Remove existing mask
     if (maskLayerRef.current) {
       map.removeLayer(maskLayerRef.current);
     }
 
-    // World bounds
     const outerCoords: L.LatLngTuple[][] = [
       [
         [-90, -180],
@@ -154,7 +228,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
       ],
     ];
 
-    // Add holes for each polygon
     const holes = polygons.map((polygon) =>
       polygon.coordinates
         .map((coord) => [coord[1], coord[0]] as L.LatLngTuple)
@@ -190,15 +263,20 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
   return (
     <div className="relative w-full h-full">
-      <div id="map" className="w-full h-full bg-white" />
+      <div id="map" className="w-full h-full" />
 
-      {/* Toggle Background Button */}
-      <button
-        onClick={toggleBackground}
-        className="absolute top-4 left-4 z-[1000] bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-      >
-        {maskEnabled ? "Show Full Map" : "Hide Outside"}
-      </button>
+      {/* Map Controls */}
+      <div className="absolute top-4 left-4 z-[1000] flex flex-col gap-2">
+        <button
+          onClick={toggleBackground}
+          className="bg-white/90 dark:bg-slate-700/90 backdrop-blur p-2 px-3 shadow-md rounded-lg hover:bg-white dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 flex items-center gap-2 font-medium text-sm text-slate-700 dark:text-slate-200 transition-colors"
+        >
+          <span className="material-symbols-outlined text-[20px]">
+            {maskEnabled ? "fullscreen" : "fullscreen_exit"}
+          </span>
+          {maskEnabled ? "Show Full Map" : "Hide Outside"}
+        </button>
+      </div>
     </div>
   );
 };
