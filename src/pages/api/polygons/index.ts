@@ -2,52 +2,105 @@ import { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 import path from "path";
 
-const dataPath = path.join(process.cwd(), "src", "data", "polygons.json");
+const polygonsPath = path.join(process.cwd(), "src", "data", "polygons.json");
+const combinedPath = path.join(process.cwd(), "src", "data", "combined.json");
+
+export interface RwKetuaInfo {
+  nama_lengkap: string;
+  no_hp: string;
+  alamat: string;
+  jabatan: string;
+}
+
+export interface RtInfo {
+  rt: string;
+  nama_lengkap: string;
+  no_hp: string;
+  alamat: string;
+  jabatan: string;
+}
+
+export interface RwStatistics {
+  jumlah_rt: number;
+  total_warga: number;
+  warga_aktif: number;
+  agama: Record<string, number>;
+  pendidikan: Record<string, number>;
+  status_warga: Record<string, number>;
+  status_kawin: Record<string, number>;
+  range_umur: Record<string, number>;
+}
 
 export interface Polygon {
   id: string;
   nama: string;
   rw: string;
-  jumlah_kk: number;
-  jumlah_penduduk: number;
-  ketua_rw: string;
-  jumlah_rt: number;
-  jumlah_mesjid: number;
   coordinates: [number, number][];
+  ketua_rw: RwKetuaInfo | null;
+  rt_list: RtInfo[];
+  statistics: RwStatistics | null;
 }
 
-interface DataStore {
-  polygons: Polygon[];
+interface PolygonFileEntry {
+  id: number | string;
+  nama: string;
+  rw: string;
+  coordinates: [number, number][];
+  [key: string]: unknown;
 }
 
-const readData = (): DataStore => {
-  const fileContents = fs.readFileSync(dataPath, "utf8");
-  return JSON.parse(fileContents);
-};
+interface CombinedFile {
+  data_by_rw: Record<
+    string,
+    {
+      ketua_rw: RwKetuaInfo | null;
+      rt_list: RtInfo[];
+      statistics: RwStatistics;
+    }
+  >;
+}
 
-const writeData = (data: DataStore) => {
-  fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+const readMergedData = (): Polygon[] => {
+  const polygonsRaw: { polygons: PolygonFileEntry[] } = JSON.parse(
+    fs.readFileSync(polygonsPath, "utf8"),
+  );
+  const combinedRaw: CombinedFile = JSON.parse(
+    fs.readFileSync(combinedPath, "utf8"),
+  );
+
+  return polygonsRaw.polygons.map((p) => {
+    const rwKey = p.rw.padStart(3, "0");
+    const rwData = combinedRaw.data_by_rw[rwKey];
+
+    return {
+      id: String(p.id),
+      nama: p.nama,
+      rw: p.rw,
+      coordinates: p.coordinates,
+      ketua_rw: rwData?.ketua_rw || null,
+      rt_list: rwData?.rt_list || [],
+      statistics: rwData?.statistics || null,
+    };
+  });
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const data = readData();
-
     switch (req.method) {
       case "GET":
-        // Get all polygons
-        res.status(200).json({ success: true, data: data.polygons });
+        const data = readMergedData();
+        res.status(200).json({ success: true, data });
         break;
 
       case "POST":
-        // Create new polygon
-        const newPolygon: Polygon = {
-          id: Date.now().toString(),
+        const polygonsRaw = JSON.parse(fs.readFileSync(polygonsPath, "utf8"));
+        const newEntry = {
+          id: Date.now(),
           ...req.body,
         };
-        data.polygons.push(newPolygon);
-        writeData(data);
-        res.status(201).json({ success: true, data: newPolygon });
+        polygonsRaw.polygons.push(newEntry);
+        fs.writeFileSync(polygonsPath, JSON.stringify(polygonsRaw, null, 2));
+        res.status(201).json({ success: true, data: newEntry });
         break;
 
       default:
@@ -55,6 +108,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({ success: false, error: "Server Error" });
   }
 }

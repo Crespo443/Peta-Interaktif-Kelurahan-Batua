@@ -6,11 +6,6 @@ export interface PolygonData {
   id: string;
   nama: string;
   rw: string;
-  jumlah_kk: number;
-  jumlah_penduduk: number;
-  ketua_rw: string;
-  jumlah_rt: number;
-  jumlah_mesjid: number;
   coordinates: [number, number][];
 }
 
@@ -23,6 +18,8 @@ interface MapComponentProps {
   onPolygonClick?: (polygon: PolygonData) => void;
   showWhiteBackground?: boolean;
   focusPolygonId?: string | null;
+  isFullscreen?: boolean;
+  onToggleFullscreen?: () => void;
 }
 
 export const POLYGON_COLORS = [
@@ -42,6 +39,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
   onPolygonClick,
   showWhiteBackground = true,
   focusPolygonId = null,
+  isFullscreen = false,
+  onToggleFullscreen,
 }) => {
   const mapRef = useRef<L.Map | null>(null);
   const maskLayerRef = useRef<L.Polygon | null>(null);
@@ -156,7 +155,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           polygonLayer.setStyle({
             weight: 3,
             color: color,
-            fillOpacity: 0.6,
+            fillOpacity: 0.45,
           });
         });
 
@@ -165,7 +164,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
             polygonLayer.setStyle({
               weight: 1.5,
               color: "white",
-              fillOpacity: 0.4,
+              fillOpacity: 0.25,
             });
           }
         });
@@ -212,6 +211,29 @@ const MapComponent: React.FC<MapComponentProps> = ({
     maskEnabled,
     focusPolygonId,
   ]);
+
+  // Handle fullscreen resize
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const map = mapRef.current;
+    // Give the DOM time to update layout
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+      // Fit bounds to all visible layers (wilayah)
+      const allBounds: L.LatLngBounds[] = [];
+      if (borderLayerRef.current) {
+        allBounds.push(borderLayerRef.current.getBounds());
+      }
+      polygonLayersRef.current.forEach((layer) => {
+        allBounds.push(layer.getBounds());
+      });
+      if (allBounds.length > 0) {
+        const group = new L.FeatureGroup(allBounds.map((b) => L.rectangle(b)));
+        map.fitBounds(group.getBounds(), { padding: [40, 40] });
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [isFullscreen]);
 
   const createInverseMask = (map: L.Map, polygons: PolygonData[]) => {
     if (maskLayerRef.current) {
@@ -272,10 +294,21 @@ const MapComponent: React.FC<MapComponentProps> = ({
           className="bg-white/90 dark:bg-slate-700/90 backdrop-blur p-2 px-3 shadow-md rounded-lg hover:bg-white dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 flex items-center gap-2 font-medium text-sm text-slate-700 dark:text-slate-200 transition-colors"
         >
           <span className="material-symbols-outlined text-[20px]">
-            {maskEnabled ? "fullscreen" : "fullscreen_exit"}
+            {maskEnabled ? "visibility" : "visibility_off"}
           </span>
           {maskEnabled ? "Show Full Map" : "Hide Outside"}
         </button>
+        {onToggleFullscreen && (
+          <button
+            onClick={onToggleFullscreen}
+            className="bg-white/90 dark:bg-slate-700/90 backdrop-blur p-2 px-3 shadow-md rounded-lg hover:bg-white dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 flex items-center gap-2 font-medium text-sm text-slate-700 dark:text-slate-200 transition-colors"
+          >
+            <span className="material-symbols-outlined text-[20px]">
+              {isFullscreen ? "fullscreen_exit" : "fullscreen"}
+            </span>
+            {isFullscreen ? "Keluar Layar Penuh" : "Layar Penuh"}
+          </button>
+        )}
       </div>
     </div>
   );

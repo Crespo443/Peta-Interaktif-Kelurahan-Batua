@@ -1,12 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 import path from "path";
-import { Polygon } from "./index";
 
 const dataPath = path.join(process.cwd(), "src", "data", "polygons.json");
 
 interface DataStore {
-  polygons: Polygon[];
+  polygons: Array<{
+    id: number | string;
+    nama: string;
+    rw: string;
+    coordinates: [number, number][];
+    [key: string]: unknown;
+  }>;
 }
 
 const readData = (): DataStore => {
@@ -27,11 +32,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const data = readData();
-    const polygonIndex = data.polygons.findIndex((p) => p.id === id);
+    const polygonIndex = data.polygons.findIndex((p) => String(p.id) === id);
 
     switch (req.method) {
       case "GET":
-        // Get single polygon
         if (polygonIndex === -1) {
           return res
             .status(404)
@@ -43,7 +47,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         break;
 
       case "PUT":
-        // Update polygon
         if (polygonIndex === -1) {
           return res
             .status(404)
@@ -52,7 +55,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         data.polygons[polygonIndex] = {
           ...data.polygons[polygonIndex],
           ...req.body,
-          id, // Preserve the ID
+          id: data.polygons[polygonIndex].id,
         };
         writeData(data);
         res
@@ -61,7 +64,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         break;
 
       case "DELETE":
-        // Delete polygon
         if (polygonIndex === -1) {
           return res
             .status(404)

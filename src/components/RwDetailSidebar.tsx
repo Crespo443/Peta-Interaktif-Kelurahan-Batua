@@ -1,58 +1,46 @@
 import React from "react";
+import Link from "next/link";
+
+interface RwKetuaInfo {
+  nama_lengkap: string;
+  no_hp: string;
+  alamat: string;
+  jabatan: string;
+}
+
+interface RtInfo {
+  rt: string;
+  nama_lengkap: string;
+  no_hp: string;
+  alamat: string;
+  jabatan: string;
+}
+
+interface RwStatistics {
+  jumlah_rt: number;
+  total_warga: number;
+  warga_aktif: number;
+  agama: Record<string, number>;
+  pendidikan: Record<string, number>;
+  status_warga: Record<string, number>;
+  status_kawin: Record<string, number>;
+  range_umur: Record<string, number>;
+}
 
 interface Polygon {
   id: string;
   nama: string;
   rw: string;
-  jumlah_kk: number;
-  jumlah_penduduk: number;
-  ketua_rw: string;
-  jumlah_rt: number;
-  jumlah_mesjid: number;
   coordinates: [number, number][];
+  ketua_rw: RwKetuaInfo | null;
+  rt_list: RtInfo[];
+  statistics: RwStatistics | null;
 }
 
 interface RwDetailSidebarProps {
   polygon: Polygon | null;
   color: string;
 }
-
-const DETAIL_ITEMS = [
-  {
-    key: "ketua_rw",
-    label: "Ketua RW",
-    icon: "person",
-    format: (v: string | number) => v || "-",
-  },
-  {
-    key: "jumlah_rt",
-    label: "Jumlah RT",
-    icon: "holiday_village",
-    format: (v: string | number) =>
-      typeof v === "number" ? v.toLocaleString() : v,
-  },
-  {
-    key: "jumlah_kk",
-    label: "Jumlah KK",
-    icon: "family_restroom",
-    format: (v: string | number) =>
-      typeof v === "number" ? v.toLocaleString() : v,
-  },
-  {
-    key: "jumlah_penduduk",
-    label: "Jumlah Penduduk",
-    icon: "groups",
-    format: (v: string | number) =>
-      typeof v === "number" ? `${v.toLocaleString()} jiwa` : v,
-  },
-  {
-    key: "jumlah_mesjid",
-    label: "Jumlah Mesjid",
-    icon: "mosque",
-    format: (v: string | number) =>
-      typeof v === "number" ? v.toLocaleString() : v,
-  },
-];
 
 const RwDetailSidebar: React.FC<RwDetailSidebarProps> = ({
   polygon,
@@ -76,6 +64,9 @@ const RwDetailSidebar: React.FC<RwDetailSidebarProps> = ({
     );
   }
 
+  const stats = polygon.statistics;
+  const ketua = polygon.ketua_rw;
+
   return (
     <div className="p-5 space-y-5">
       {/* Header */}
@@ -94,20 +85,136 @@ const RwDetailSidebar: React.FC<RwDetailSidebarProps> = ({
         </p>
       </div>
 
-      {/* Detail Items */}
+      {/* Ketua RW */}
       <div className="space-y-3">
         <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-          Informasi Wilayah
+          Ketua RW
         </p>
-        {DETAIL_ITEMS.map((item) => {
-          const value = (polygon as unknown as Record<string, unknown>)[
-            item.key
-          ];
-          return (
-            <div
-              key={item.key}
-              className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50"
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+            style={{ backgroundColor: `${color}18` }}
+          >
+            <span
+              className="material-symbols-outlined text-xl"
+              style={{ color }}
             >
+              person
+            </span>
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+              Nama
+            </p>
+            <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">
+              {ketua?.nama_lengkap || "-"}
+            </p>
+          </div>
+        </div>
+        {ketua?.no_hp && (
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
+            <div
+              className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${color}18` }}
+            >
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color }}
+              >
+                call
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                No. HP
+              </p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">
+                {ketua.no_hp}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Statistics Overview */}
+      {stats && (
+        <div className="space-y-3">
+          <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+            Statistik
+          </p>
+
+          {/* Jumlah RT */}
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
+            <div
+              className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${color}18` }}
+            >
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color }}
+              >
+                holiday_village
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                Jumlah RT
+              </p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                {stats.jumlah_rt}
+              </p>
+            </div>
+          </div>
+
+          {/* Total Warga */}
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
+            <div
+              className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${color}18` }}
+            >
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color }}
+              >
+                groups
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                Total Warga
+              </p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                {stats.total_warga.toLocaleString()} jiwa
+              </p>
+            </div>
+          </div>
+
+          {/* Warga Aktif */}
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
+            <div
+              className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+              style={{ backgroundColor: `${color}18` }}
+            >
+              <span
+                className="material-symbols-outlined text-xl"
+                style={{ color }}
+              >
+                verified_user
+              </span>
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                Warga Aktif
+              </p>
+              <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                {stats.warga_aktif.toLocaleString()}
+              </p>
+            </div>
+          </div>
+
+          {/* Top Agama */}
+          {stats.agama && (
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50">
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: `${color}18` }}
@@ -116,20 +223,39 @@ const RwDetailSidebar: React.FC<RwDetailSidebarProps> = ({
                   className="material-symbols-outlined text-xl"
                   style={{ color }}
                 >
-                  {item.icon}
+                  mosque
                 </span>
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                  {item.label}
+                  Agama Mayoritas
                 </p>
-                <p className="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">
-                  {item.format(value as string | number)}
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-100">
+                  {(() => {
+                    const sorted = Object.entries(stats.agama).sort(
+                      ([, a], [, b]) => b - a,
+                    );
+                    return sorted[0]
+                      ? `${sorted[0][0]} (${sorted[0][1]})`
+                      : "-";
+                  })()}
                 </p>
               </div>
             </div>
-          );
-        })}
+          )}
+        </div>
+      )}
+
+      {/* View Detail Button */}
+      <div className="pt-2">
+        <Link
+          href={`/rw/${polygon.rw.replace(/^0+/, "")}`}
+          className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-bold text-sm text-white shadow-lg hover:scale-[1.02] transition-all"
+          style={{ backgroundColor: color }}
+        >
+          <span className="material-symbols-outlined text-sm">bar_chart</span>
+          Lihat Detail Statistik
+        </Link>
       </div>
     </div>
   );

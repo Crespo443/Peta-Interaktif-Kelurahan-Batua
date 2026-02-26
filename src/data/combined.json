@@ -1,0 +1,1222 @@
+{
+  "metadata": {
+    "last_updated": "2026-02-25T20:17:19.569Z",
+    "source": "API SIMLURAH Kelurahan Batua",
+    "kecamatan": "Manggala",
+    "kelurahan": "Batua"
+  },
+  "summary": {
+    "total_rw": 13,
+    "total_rt": 69,
+    "total_warga": 5951,
+    "total_warga_aktif": 5353
+  },
+  "data_by_rw": {
+    "001": {
+      "ketua_rw": {
+        "nama_lengkap": "DRS. YOHANIS SATTU",
+        "no_hp": "08121262294",
+        "alamat": "JL. INSPEKSI PAM LR. 4 NO. 17 ",
+        "jabatan": "Ketua RW 001"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "SABIRIN, S.SOS",
+          "no_hp": "081243113687",
+          "alamat": "JL. INSPEKSI PAM LR. 6",
+          "jabatan": "Ketua RT 001/001"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "MUH JABIR SIGARA,SS",
+          "no_hp": "08124266105",
+          "alamat": "JL. INSPEKSI PAM LR. 3 NO. 5",
+          "jabatan": "Ketua RT 002/001"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "SYAHRIR",
+          "no_hp": "0882019456620",
+          "alamat": "JL. INSPEKSI PAM LR. 3 ",
+          "jabatan": "Ketua RT 003/001"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "MUH . DASWAR. N",
+          "no_hp": "081342923550",
+          "alamat": "JL. INSPEKSI PAM LR. 1 NO. 7B",
+          "jabatan": "Ketua RT 004/001"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "ST ARUNG,S.SI",
+          "no_hp": "088704568780",
+          "alamat": "JL. INSPEKSI PAM ",
+          "jabatan": "Ketua RT 005/001"
+        },
+        {
+          "rt": "006",
+          "nama_lengkap": "H. AGUS HARDIN",
+          "no_hp": "081243388858",
+          "alamat": "JL. INSPEKSI  KANAL IV",
+          "jabatan": "Ketua RT 006/001"
+        },
+        {
+          "rt": "007",
+          "nama_lengkap": "ABD. RAUF T",
+          "no_hp": "081342243923",
+          "alamat": "JL. INSPEKSI PAM LR. 7 NO. 15",
+          "jabatan": "Ketua RT 007/001"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 7,
+        "total_warga": 841,
+        "warga_aktif": 668,
+        "agama": {
+          "Islam": 737,
+          "Katholik": 39,
+          "Kristen": 64,
+          "Hindu": 1,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 119,
+          "tidak_tamat_sd": 111,
+          "sd_sederajat": 7,
+          "tamat_sd": 81,
+          "sltp": 108,
+          "slta": 320,
+          "diploma_1_2": 6,
+          "diploma_3": 15,
+          "diploma_4_s1": 67,
+          "s2": 7,
+          "s3": 0
+        },
+        "status_warga": {
+          "aktif": 668,
+          "meninggal": 31,
+          "pindah": 2,
+          "domisili_lain": 140
+        },
+        "status_kawin": {
+          "belum_kawin": 451,
+          "kawin": 361,
+          "cerai_hidup": 10,
+          "cerai_mati": 19
+        },
+        "range_umur": {
+          "0-5": 32,
+          "6-12": 89,
+          "13-17": 64,
+          "18-30": 246,
+          "31-45": 228,
+          "46-60": 104,
+          "60+": 78
+        }
+      }
+    },
+    "002": {
+      "ketua_rw": {
+        "nama_lengkap": "RAHMATIAH",
+        "no_hp": "085342222176",
+        "alamat": "JL. INSPEKSI PAM 7",
+        "jabatan": "Ketua RW 002"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "IFAN IRWANDI",
+          "no_hp": "081343597270",
+          "alamat": "JL. ABD. DG. SIRUA LR. 1 NO. 12",
+          "jabatan": "Ketua RT 001/002"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "WAHYU",
+          "no_hp": "085399014256",
+          "alamat": "JL. INSPEKSI PAM LR. 1 NO. 14 A",
+          "jabatan": "Ketua RT 002/002"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "MUHLIS JABBAR",
+          "no_hp": "085333334730",
+          "alamat": "JL. INSPEKSI PAM LR. 1 NO. 40",
+          "jabatan": "Ketua RT 003/002"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "RUSDI",
+          "no_hp": "082299950334",
+          "alamat": "JL. INSPEKSI PAM LR. 1 ",
+          "jabatan": "Ketua RT 004/002"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 4,
+        "total_warga": 421,
+        "warga_aktif": 363,
+        "agama": {
+          "Islam": 382,
+          "Katholik": 6,
+          "Kristen": 33,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 52,
+          "tidak_tamat_sd": 70,
+          "sd_sederajat": 5,
+          "tamat_sd": 33,
+          "sltp": 54,
+          "slta": 161,
+          "diploma_1_2": 1,
+          "diploma_3": 4,
+          "diploma_4_s1": 35,
+          "s2": 6,
+          "s3": 0
+        },
+        "status_warga": {
+          "aktif": 363,
+          "meninggal": 17,
+          "pindah": 1,
+          "domisili_lain": 40
+        },
+        "status_kawin": {
+          "belum_kawin": 217,
+          "kawin": 183,
+          "cerai_hidup": 4,
+          "cerai_mati": 17
+        },
+        "range_umur": {
+          "0-5": 11,
+          "6-12": 42,
+          "13-17": 46,
+          "18-30": 108,
+          "31-45": 90,
+          "46-60": 83,
+          "60+": 39
+        }
+      }
+    },
+    "003": {
+      "ketua_rw": null,
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "HERNIYATI. B",
+          "no_hp": "082396555369",
+          "alamat": "JL. ABDESIR TIMUR LR. 2/9 ",
+          "jabatan": "Ketua RT 001/003"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "SYARIFUDDIN",
+          "no_hp": "082349063939",
+          "alamat": "JL. ABDESIR TIMUR LR. 2 ",
+          "jabatan": "Ketua RT 002/003"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "KAMARIA KADIR ",
+          "no_hp": "082188245335",
+          "alamat": "JL. SWADAYA NO. 45",
+          "jabatan": "Ketua RT 003/003"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "ARPAI GANING, S.PD",
+          "no_hp": "081342491186",
+          "alamat": "PERUMAHAN SWADAYA MAS A1 NO. 1",
+          "jabatan": "Ketua RT 004/003"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "A. SKRENING",
+          "no_hp": "085380555800",
+          "alamat": "JL. SWADAYA MAS ",
+          "jabatan": "Ketua RT 005/003"
+        },
+        {
+          "rt": "006",
+          "nama_lengkap": "JAMILA B",
+          "no_hp": "085236493634",
+          "alamat": "JL. ABD. DG. SIRUA LR. 2 NO. 42",
+          "jabatan": "Ketua RT 006/003"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 6,
+        "total_warga": 850,
+        "warga_aktif": 778,
+        "agama": {
+          "Islam": 794,
+          "Katholik": 26,
+          "Kristen": 30,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 112,
+          "tidak_tamat_sd": 91,
+          "sd_sederajat": 7,
+          "tamat_sd": 110,
+          "sltp": 128,
+          "slta": 324,
+          "diploma_1_2": 3,
+          "diploma_3": 14,
+          "diploma_4_s1": 56,
+          "s2": 4,
+          "s3": 1
+        },
+        "status_warga": {
+          "aktif": 778,
+          "meninggal": 47,
+          "pindah": 0,
+          "domisili_lain": 25
+        },
+        "status_kawin": {
+          "belum_kawin": 404,
+          "kawin": 405,
+          "cerai_hidup": 9,
+          "cerai_mati": 32
+        },
+        "range_umur": {
+          "0-5": 36,
+          "6-12": 66,
+          "13-17": 61,
+          "18-30": 248,
+          "31-45": 178,
+          "46-60": 161,
+          "60+": 100
+        }
+      }
+    },
+    "004": {
+      "ketua_rw": {
+        "nama_lengkap": "MUH. FAIZAL SALEH",
+        "no_hp": "081241375326",
+        "alamat": "JL. TOA DAENG  4  LR. 1 NO. 7A",
+        "jabatan": "Ketua RW 004"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "NURUL RESKI",
+          "no_hp": "0895364592512",
+          "alamat": "JL. TOA DAENG  3 LR. 2 NO. 5B NO. 2 A",
+          "jabatan": "Ketua RT 001/004"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "IBRAHIM MAHMUD",
+          "no_hp": "085299442550",
+          "alamat": "JL. TOA DAENG  IV NO. 2 A",
+          "jabatan": "Ketua RT 002/004"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "MUHAMMAD ASRIL",
+          "no_hp": "085343600035",
+          "alamat": "JL. TOA DAENG 3 NO. 8",
+          "jabatan": "Ketua RT 003/004"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "SAMFARTININGSIH",
+          "no_hp": "089603807170",
+          "alamat": "JL. TOA DAENG  III  LR. 6 NO. 43",
+          "jabatan": "Ketua RT 004/004"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "HJ. MA'RIFA",
+          "no_hp": "081242907317",
+          "alamat": "JL. TOA DAENG  III  ",
+          "jabatan": "Ketua RT 005/004"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 5,
+        "total_warga": 386,
+        "warga_aktif": 352,
+        "agama": {
+          "Islam": 374,
+          "Katholik": 2,
+          "Kristen": 10,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 56,
+          "tidak_tamat_sd": 56,
+          "sd_sederajat": 9,
+          "tamat_sd": 30,
+          "sltp": 35,
+          "slta": 149,
+          "diploma_1_2": 2,
+          "diploma_3": 10,
+          "diploma_4_s1": 36,
+          "s2": 2,
+          "s3": 1
+        },
+        "status_warga": {
+          "aktif": 352,
+          "meninggal": 18,
+          "pindah": 0,
+          "domisili_lain": 16
+        },
+        "status_kawin": {
+          "belum_kawin": 201,
+          "kawin": 157,
+          "cerai_hidup": 7,
+          "cerai_mati": 21
+        },
+        "range_umur": {
+          "0-5": 12,
+          "6-12": 50,
+          "13-17": 32,
+          "18-30": 107,
+          "31-45": 81,
+          "46-60": 58,
+          "60+": 46
+        }
+      }
+    },
+    "005": {
+      "ketua_rw": {
+        "nama_lengkap": "M. NATSIR.R, S. SOS",
+        "no_hp": "0895806391339",
+        "alamat": "JL. BATUA RAYA  III NO. 13",
+        "jabatan": "Ketua RW 005"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "RAHMAT DARDI",
+          "no_hp": "081355697713",
+          "alamat": "JL. BONTOBILA 2 NO. 1",
+          "jabatan": "Ketua RT 001/005"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "ALIMUDDIN",
+          "no_hp": "085242860590",
+          "alamat": "JL. BATUA RAYA 3 NO. 29",
+          "jabatan": "Ketua RT 002/005"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "SAMIRAH ADNAN",
+          "no_hp": "082187756669",
+          "alamat": "JL. BATUA RAYA 3 LR. 2/3",
+          "jabatan": "Ketua RT 003/005"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "MUSTARI, SE",
+          "no_hp": "082192959685",
+          "alamat": "JL. BATUA RAYA 3 NO. 10",
+          "jabatan": "Ketua RT 004/005"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "IRWAN HARSININ",
+          "no_hp": "0852999977782",
+          "alamat": "JL. BATUA RAYA NO. 33 K",
+          "jabatan": "Ketua RT 005/005"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 5,
+        "total_warga": 387,
+        "warga_aktif": 343,
+        "agama": {
+          "Islam": 358,
+          "Katholik": 10,
+          "Kristen": 19,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 45,
+          "tidak_tamat_sd": 40,
+          "sd_sederajat": 11,
+          "tamat_sd": 35,
+          "sltp": 42,
+          "slta": 169,
+          "diploma_1_2": 1,
+          "diploma_3": 9,
+          "diploma_4_s1": 28,
+          "s2": 6,
+          "s3": 0
+        },
+        "status_warga": {
+          "aktif": 343,
+          "meninggal": 32,
+          "pindah": 0,
+          "domisili_lain": 12
+        },
+        "status_kawin": {
+          "belum_kawin": 199,
+          "kawin": 162,
+          "cerai_hidup": 4,
+          "cerai_mati": 22
+        },
+        "range_umur": {
+          "0-5": 12,
+          "6-12": 40,
+          "13-17": 22,
+          "18-30": 119,
+          "31-45": 59,
+          "46-60": 80,
+          "60+": 55
+        }
+      }
+    },
+    "006": {
+      "ketua_rw": {
+        "nama_lengkap": "PADU DG. LION",
+        "no_hp": "085398812345",
+        "alamat": "JL. BATUA RAYA NO. 47",
+        "jabatan": "Ketua RW 006"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "KADIR, S. HUT",
+          "no_hp": "082213264938",
+          "alamat": "JL. BATUA RAYA LR. PEDOMAN  ",
+          "jabatan": "Ketua RT 001/006"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "ABD. AZIS",
+          "no_hp": "081354710971",
+          "alamat": "JL. BATUA RAYA IV ",
+          "jabatan": "Ketua RT 002/006"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "HENNY",
+          "no_hp": "085255324866",
+          "alamat": "JL. BATUA RAYA IV NO. 6",
+          "jabatan": "Ketua RT 003/006"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "DRA. ROSMINI",
+          "no_hp": "08124258654",
+          "alamat": "JL. BATUA RAYA NO. 77",
+          "jabatan": "Ketua RT 004/006"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "ABD. HAFID",
+          "no_hp": "085342523417",
+          "alamat": "JL. BATUA RAYA IX",
+          "jabatan": "Ketua RT 005/006"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 5,
+        "total_warga": 611,
+        "warga_aktif": 583,
+        "agama": {
+          "Islam": 587,
+          "Katholik": 14,
+          "Kristen": 8,
+          "Hindu": 0,
+          "Buddha": 1
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 108,
+          "tidak_tamat_sd": 94,
+          "sd_sederajat": 12,
+          "tamat_sd": 35,
+          "sltp": 84,
+          "slta": 210,
+          "diploma_1_2": 3,
+          "diploma_3": 9,
+          "diploma_4_s1": 52,
+          "s2": 3,
+          "s3": 1
+        },
+        "status_warga": {
+          "aktif": 583,
+          "meninggal": 23,
+          "pindah": 0,
+          "domisili_lain": 5
+        },
+        "status_kawin": {
+          "belum_kawin": 336,
+          "kawin": 248,
+          "cerai_hidup": 6,
+          "cerai_mati": 21
+        },
+        "range_umur": {
+          "0-5": 34,
+          "6-12": 94,
+          "13-17": 66,
+          "18-30": 155,
+          "31-45": 134,
+          "46-60": 77,
+          "60+": 51
+        }
+      }
+    },
+    "007": {
+      "ketua_rw": {
+        "nama_lengkap": "ASRI, SE",
+        "no_hp": "0811524111",
+        "alamat": "JL. BORONG RAYA BARU NO. 18",
+        "jabatan": "Ketua RW 007"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "SALMA",
+          "no_hp": "082195022989",
+          "alamat": "JL. BORONG RAYA     NO. 8",
+          "jabatan": "Ketua RT 001/007"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "SIRMAN",
+          "no_hp": "085242395880",
+          "alamat": "KOMP. RAYHAN TOWN HOUSE NO. 8",
+          "jabatan": "Ketua RT 002/007"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "SYARIFA FATIMAH ASSAGAF",
+          "no_hp": "081355437130",
+          "alamat": "JL. BORONG RAYA  BARU II  NO. 5",
+          "jabatan": "Ketua RT 003/007"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "SRI MARJULIANTI MARZUKI",
+          "no_hp": "085341040080",
+          "alamat": "JL. BORONG RAYA  BARU III  NO. 9",
+          "jabatan": "Ketua RT 004/007"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "RAHMATULLA",
+          "no_hp": "082347640571",
+          "alamat": "JL. BORONG RAYA III  NO. 3",
+          "jabatan": "Ketua RT 005/007"
+        },
+        {
+          "rt": "006",
+          "nama_lengkap": "JUMAKKING. T",
+          "no_hp": "081245567601",
+          "alamat": "JL. BORONG RAYA BARU 1  NO. 4",
+          "jabatan": "Ketua RT 006/007"
+        },
+        {
+          "rt": "007",
+          "nama_lengkap": "HJ. BESSE. P",
+          "no_hp": "085398965477",
+          "alamat": "JL. BORONG RAYA BARU 7  NO. 1",
+          "jabatan": "Ketua RT 007/007"
+        },
+        {
+          "rt": "008",
+          "nama_lengkap": "M. ARIFIN JAGONG",
+          "no_hp": "0813439776265",
+          "alamat": "JL. BORONG RAYA BARU LR. 8",
+          "jabatan": "Ketua RT 008/007"
+        },
+        {
+          "rt": "009",
+          "nama_lengkap": "ERNA",
+          "no_hp": "082194509936",
+          "alamat": "JL. INSPEKSI KANAL 1 NO. 21",
+          "jabatan": "Ketua RT 009/007"
+        },
+        {
+          "rt": "010",
+          "nama_lengkap": "SYUHERIA",
+          "no_hp": "0895330270976",
+          "alamat": "JL. BATUA RAYA 14 KOMP. RAYHAN TOWN HOUSE NO. 18",
+          "jabatan": "Ketua RT 010/007"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 10,
+        "total_warga": 729,
+        "warga_aktif": 678,
+        "agama": {
+          "Islam": 718,
+          "Katholik": 2,
+          "Kristen": 9,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 105,
+          "tidak_tamat_sd": 76,
+          "sd_sederajat": 16,
+          "tamat_sd": 95,
+          "sltp": 70,
+          "slta": 270,
+          "diploma_1_2": 6,
+          "diploma_3": 13,
+          "diploma_4_s1": 67,
+          "s2": 10,
+          "s3": 1
+        },
+        "status_warga": {
+          "aktif": 678,
+          "meninggal": 43,
+          "pindah": 0,
+          "domisili_lain": 8
+        },
+        "status_kawin": {
+          "belum_kawin": 356,
+          "kawin": 340,
+          "cerai_hidup": 11,
+          "cerai_mati": 22
+        },
+        "range_umur": {
+          "0-5": 20,
+          "6-12": 99,
+          "13-17": 44,
+          "18-30": 194,
+          "31-45": 171,
+          "46-60": 133,
+          "60+": 68
+        }
+      }
+    },
+    "008": {
+      "ketua_rw": {
+        "nama_lengkap": "JUFRI BANGUNIS, A.MD",
+        "no_hp": "081342555367",
+        "alamat": "JL. TOA DG. 3 LR. ALAMANDA NO. 1",
+        "jabatan": "Ketua RW 008"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "HARNILA ABADY",
+          "no_hp": "081356303848",
+          "alamat": "JL. ABDESIR TOA DAENG 1 NO. 14 A",
+          "jabatan": "Ketua RT 001/008"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "MUSTAMIN",
+          "no_hp": "081343678669",
+          "alamat": "JL. TOA DAENG 3 CAMBAJAWAYA",
+          "jabatan": "Ketua RT 002/008"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "IRAWATI ZAINUDDIN",
+          "no_hp": "081354981318",
+          "alamat": "JL. TOA DAENG 3 LR. NUSA INDAH 19",
+          "jabatan": "Ketua RT 003/008"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "HUSNI",
+          "no_hp": "085323107734",
+          "alamat": "JL. TOA DAENG 3 LR. MAWAR",
+          "jabatan": "Ketua RT 004/008"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "A. MUH HAMKA RAFIK",
+          "no_hp": "085249569271",
+          "alamat": "JL. TOA DAENG 3 LR. MELATI NO. 65 H",
+          "jabatan": "Ketua RT 005/008"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 5,
+        "total_warga": 555,
+        "warga_aktif": 511,
+        "agama": {
+          "Islam": 515,
+          "Katholik": 10,
+          "Kristen": 30,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 69,
+          "tidak_tamat_sd": 68,
+          "sd_sederajat": 4,
+          "tamat_sd": 55,
+          "sltp": 63,
+          "slta": 222,
+          "diploma_1_2": 4,
+          "diploma_3": 15,
+          "diploma_4_s1": 50,
+          "s2": 4,
+          "s3": 1
+        },
+        "status_warga": {
+          "aktif": 511,
+          "meninggal": 35,
+          "pindah": 1,
+          "domisili_lain": 8
+        },
+        "status_kawin": {
+          "belum_kawin": 293,
+          "kawin": 228,
+          "cerai_hidup": 4,
+          "cerai_mati": 30
+        },
+        "range_umur": {
+          "0-5": 11,
+          "6-12": 58,
+          "13-17": 54,
+          "18-30": 145,
+          "31-45": 122,
+          "46-60": 96,
+          "60+": 69
+        }
+      }
+    },
+    "009": {
+      "ketua_rw": {
+        "nama_lengkap": "JUMARDING, SE",
+        "no_hp": "081241709443",
+        "alamat": "JL. BONTOBILA 1 NO. 3 C",
+        "jabatan": "Ketua RW 009"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "SURADY",
+          "no_hp": "082192332489",
+          "alamat": "JL. BONTOBILA 1 NO. 16 A",
+          "jabatan": "Ketua RT 001/009"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "ANDI MANDALA",
+          "no_hp": "088807066775",
+          "alamat": "JL. BONTOBILA 3 LR. 8 NO. 8",
+          "jabatan": "Ketua RT 002/009"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "MUH. NATSIR",
+          "no_hp": "081343881516",
+          "alamat": "JL. BONTOBILA RAYA NO. 27",
+          "jabatan": "Ketua RT 003/009"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "IR. DALIDJA",
+          "no_hp": "085398799823",
+          "alamat": "JL. BONTOBILA RAYA NO. 31",
+          "jabatan": "Ketua RT 004/009"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "SYARIFUDDIN",
+          "no_hp": "081354772701",
+          "alamat": "JL. BONTOBILA RAYA NO. 80",
+          "jabatan": "Ketua RT 005/009"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 5,
+        "total_warga": 495,
+        "warga_aktif": 449,
+        "agama": {
+          "Islam": 420,
+          "Katholik": 27,
+          "Kristen": 48,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 62,
+          "tidak_tamat_sd": 46,
+          "sd_sederajat": 7,
+          "tamat_sd": 37,
+          "sltp": 68,
+          "slta": 203,
+          "diploma_1_2": 4,
+          "diploma_3": 10,
+          "diploma_4_s1": 51,
+          "s2": 5,
+          "s3": 1
+        },
+        "status_warga": {
+          "aktif": 449,
+          "meninggal": 39,
+          "pindah": 0,
+          "domisili_lain": 7
+        },
+        "status_kawin": {
+          "belum_kawin": 249,
+          "kawin": 213,
+          "cerai_hidup": 8,
+          "cerai_mati": 25
+        },
+        "range_umur": {
+          "0-5": 11,
+          "6-12": 46,
+          "13-17": 32,
+          "18-30": 141,
+          "31-45": 111,
+          "46-60": 89,
+          "60+": 65
+        }
+      }
+    },
+    "010": {
+      "ketua_rw": {
+        "nama_lengkap": "H. ROY RIPIN",
+        "no_hp": "0811415044",
+        "alamat": "JL. BATUA RAYA X NO. 01",
+        "jabatan": "Ketua RW 010"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "TAKDIR",
+          "no_hp": "085242466275",
+          "alamat": "JL. BATUA RAYA IX NO. 20 D",
+          "jabatan": "Ketua RT 001/010"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "MARHAENI, SP",
+          "no_hp": "085299147237",
+          "alamat": "JL. BATUA RAYA X ",
+          "jabatan": "Ketua RT 002/010"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "SITTI RAHMA ",
+          "no_hp": "087874103924",
+          "alamat": "JL. BATUA RAYA X ",
+          "jabatan": "Ketua RT 003/010"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "MIK GAEL RIADY",
+          "no_hp": "081354449657",
+          "alamat": "JL. BATUA RAYA 12 A NO. 27 ",
+          "jabatan": "Ketua RT 004/010"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 4,
+        "total_warga": 300,
+        "warga_aktif": 271,
+        "agama": {
+          "Islam": 289,
+          "Katholik": 4,
+          "Kristen": 7,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 50,
+          "tidak_tamat_sd": 30,
+          "sd_sederajat": 4,
+          "tamat_sd": 26,
+          "sltp": 30,
+          "slta": 121,
+          "diploma_1_2": 2,
+          "diploma_3": 7,
+          "diploma_4_s1": 26,
+          "s2": 1,
+          "s3": 3
+        },
+        "status_warga": {
+          "aktif": 271,
+          "meninggal": 24,
+          "pindah": 0,
+          "domisili_lain": 5
+        },
+        "status_kawin": {
+          "belum_kawin": 147,
+          "kawin": 143,
+          "cerai_hidup": 3,
+          "cerai_mati": 7
+        },
+        "range_umur": {
+          "0-5": 9,
+          "6-12": 32,
+          "13-17": 30,
+          "18-30": 74,
+          "31-45": 66,
+          "46-60": 56,
+          "60+": 33
+        }
+      }
+    },
+    "011": {
+      "ketua_rw": {
+        "nama_lengkap": "JABBAR, S.SOS",
+        "no_hp": "082345672733",
+        "alamat": "JL. BORONG RAYA BARU NO. 16",
+        "jabatan": "Ketua RW 011"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "ANDAS, HS",
+          "no_hp": "089517478736",
+          "alamat": "JL. BORONG RAYA  BARU LR. A 21",
+          "jabatan": "Ketua RT 001/011"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "RIZAL",
+          "no_hp": "085821026346",
+          "alamat": "JL. BORONG RAYA  BARU LR. A ",
+          "jabatan": "Ketua RT 002/011"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "H. ABD AZIZ",
+          "no_hp": "085787970388",
+          "alamat": "JL. BORONG RAYA  BARU NO. 81",
+          "jabatan": "Ketua RT 003/011"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "RINI IDRIS",
+          "no_hp": "081342220791",
+          "alamat": "JL. BORONG RAYA  MITRA MAS INDAH A/ 21",
+          "jabatan": "Ketua RT 004/011"
+        },
+        {
+          "rt": "005",
+          "nama_lengkap": "SALDY DERMAWAN",
+          "no_hp": "081355451000",
+          "alamat": "MITRA MAS  INDAH",
+          "jabatan": "Ketua RT 005/011"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 5,
+        "total_warga": 240,
+        "warga_aktif": 228,
+        "agama": {
+          "Islam": 236,
+          "Katholik": 1,
+          "Kristen": 3,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 34,
+          "tidak_tamat_sd": 35,
+          "sd_sederajat": 8,
+          "tamat_sd": 29,
+          "sltp": 33,
+          "slta": 74,
+          "diploma_1_2": 1,
+          "diploma_3": 2,
+          "diploma_4_s1": 22,
+          "s2": 2,
+          "s3": 0
+        },
+        "status_warga": {
+          "aktif": 228,
+          "meninggal": 10,
+          "pindah": 0,
+          "domisili_lain": 2
+        },
+        "status_kawin": {
+          "belum_kawin": 117,
+          "kawin": 115,
+          "cerai_hidup": 1,
+          "cerai_mati": 7
+        },
+        "range_umur": {
+          "0-5": 9,
+          "6-12": 30,
+          "13-17": 25,
+          "18-30": 55,
+          "31-45": 51,
+          "46-60": 43,
+          "60+": 27
+        }
+      }
+    },
+    "012": {
+      "ketua_rw": {
+        "nama_lengkap": "H SUPRIADI ALI",
+        "no_hp": "082152794335",
+        "alamat": "JL. BORONG RAYA PERUMNAS DELTAMAS II BLOK E 2/ 9",
+        "jabatan": "Ketua RW 012"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "HARI SAPTONO",
+          "no_hp": "081355296668",
+          "alamat": "KOMP. DELTA MAS 11  BLOK B NO. 3",
+          "jabatan": "Ketua RT 001/012"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "ANNISYAH",
+          "no_hp": "081243358973",
+          "alamat": "KOMP. DELTA MAS 11  BLOK A NO. 7",
+          "jabatan": "Ketua RT 002/012"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "RUSLI RAUF",
+          "no_hp": "0882022533560",
+          "alamat": "KOMP. DELTA MAS 11  BLO D1 N0.,13",
+          "jabatan": "Ketua RT 003/012"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "SULHAM RISA",
+          "no_hp": "081241125984",
+          "alamat": "KOMP. DELTA MAS 11 E 2 NO. 5",
+          "jabatan": "Ketua RT 004/012"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 4,
+        "total_warga": 26,
+        "warga_aktif": 23,
+        "agama": {
+          "Islam": 26,
+          "Katholik": 0,
+          "Kristen": 0,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 1,
+          "tidak_tamat_sd": 1,
+          "sd_sederajat": 0,
+          "tamat_sd": 0,
+          "sltp": 1,
+          "slta": 14,
+          "diploma_1_2": 0,
+          "diploma_3": 0,
+          "diploma_4_s1": 8,
+          "s2": 1,
+          "s3": 0
+        },
+        "status_warga": {
+          "aktif": 23,
+          "meninggal": 1,
+          "pindah": 0,
+          "domisili_lain": 2
+        },
+        "status_kawin": {
+          "belum_kawin": 13,
+          "kawin": 12,
+          "cerai_hidup": 1,
+          "cerai_mati": 0
+        },
+        "range_umur": {
+          "0-5": 0,
+          "6-12": 0,
+          "13-17": 1,
+          "18-30": 11,
+          "31-45": 9,
+          "46-60": 3,
+          "60+": 2
+        }
+      }
+    },
+    "013": {
+      "ketua_rw": {
+        "nama_lengkap": "ISMAIL MOODUTO, SE",
+        "no_hp": "085342496703",
+        "alamat": "JL.  PASARAN KEKE NO. 34",
+        "jabatan": "Ketua RW 013"
+      },
+      "rt_list": [
+        {
+          "rt": "001",
+          "nama_lengkap": "ABD. RAZAK",
+          "no_hp": "085242914544",
+          "alamat": "JL. TOA DAENG III NO. 77",
+          "jabatan": "Ketua RT 001/013"
+        },
+        {
+          "rt": "002",
+          "nama_lengkap": "MARWANTY",
+          "no_hp": "085348603651",
+          "alamat": "JL. TOA DAENG III LR. ALAMANDA",
+          "jabatan": "Ketua RT 002/013"
+        },
+        {
+          "rt": "003",
+          "nama_lengkap": "OMI YOHANA, AMD",
+          "no_hp": "085998012629",
+          "alamat": "JL. TOA DAENG III LR. MELATI",
+          "jabatan": "Ketua RT 003/013"
+        },
+        {
+          "rt": "004",
+          "nama_lengkap": "DIRMAN",
+          "no_hp": "08114446843",
+          "alamat": "JL. TOA DAENG III LR. PASARAN KEKE NO. 22",
+          "jabatan": "Ketua RT 004/013"
+        }
+      ],
+      "statistics": {
+        "jumlah_rt": 4,
+        "total_warga": 110,
+        "warga_aktif": 106,
+        "agama": {
+          "Islam": 94,
+          "Katholik": 6,
+          "Kristen": 10,
+          "Hindu": 0,
+          "Buddha": 0
+        },
+        "pendidikan": {
+          "tidak_belum_sekolah": 16,
+          "tidak_tamat_sd": 11,
+          "sd_sederajat": 2,
+          "tamat_sd": 13,
+          "sltp": 15,
+          "slta": 37,
+          "diploma_1_2": 0,
+          "diploma_3": 3,
+          "diploma_4_s1": 11,
+          "s2": 2,
+          "s3": 0
+        },
+        "status_warga": {
+          "aktif": 106,
+          "meninggal": 3,
+          "pindah": 0,
+          "domisili_lain": 1
+        },
+        "status_kawin": {
+          "belum_kawin": 50,
+          "kawin": 51,
+          "cerai_hidup": 2,
+          "cerai_mati": 7
+        },
+        "range_umur": {
+          "0-5": 5,
+          "6-12": 13,
+          "13-17": 6,
+          "18-30": 27,
+          "31-45": 31,
+          "46-60": 17,
+          "60+": 11
+        }
+      }
+    }
+  }
+}

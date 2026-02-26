@@ -14,12 +14,30 @@ interface Polygon {
   id: string;
   nama: string;
   rw: string;
-  jumlah_kk: number;
-  jumlah_penduduk: number;
-  ketua_rw: string;
-  jumlah_rt: number;
-  jumlah_mesjid: number;
   coordinates: [number, number][];
+  ketua_rw: {
+    nama_lengkap: string;
+    no_hp: string;
+    alamat: string;
+    jabatan: string;
+  } | null;
+  rt_list: Array<{
+    rt: string;
+    nama_lengkap: string;
+    no_hp: string;
+    alamat: string;
+    jabatan: string;
+  }>;
+  statistics: {
+    jumlah_rt: number;
+    total_warga: number;
+    warga_aktif: number;
+    agama: Record<string, number>;
+    pendidikan: Record<string, number>;
+    status_warga: Record<string, number>;
+    status_kawin: Record<string, number>;
+    range_umur: Record<string, number>;
+  } | null;
 }
 
 export default function AdminPage() {
@@ -105,10 +123,10 @@ export default function AdminPage() {
         id: "",
         nama: "",
         rw: "",
-        jumlah_kk: 0,
-        jumlah_penduduk: 0,
-        ketua_rw: "",
         coordinates,
+        ketua_rw: null,
+        rt_list: [],
+        statistics: null,
       });
     }
     setShowForm(true);
@@ -219,10 +237,10 @@ export default function AdminPage() {
                   RW
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Jumlah KK
+                  Total Warga
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Penduduk
+                  Warga Aktif
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Ketua RW
@@ -242,13 +260,13 @@ export default function AdminPage() {
                     RW {polygon.rw}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {polygon.jumlah_kk}
+                    {polygon.statistics?.total_warga ?? "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {polygon.jumlah_penduduk}
+                    {polygon.statistics?.warga_aktif ?? "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {polygon.ketua_rw}
+                    {polygon.ketua_rw?.nama_lengkap || "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button

@@ -17,16 +17,40 @@ const MapComponent = dynamic(() => import("@/components/MapComponent"), {
   ),
 });
 
+interface RwKetuaInfo {
+  nama_lengkap: string;
+  no_hp: string;
+  alamat: string;
+  jabatan: string;
+}
+
+interface RtInfo {
+  rt: string;
+  nama_lengkap: string;
+  no_hp: string;
+  alamat: string;
+  jabatan: string;
+}
+
+interface RwStatistics {
+  jumlah_rt: number;
+  total_warga: number;
+  warga_aktif: number;
+  agama: Record<string, number>;
+  pendidikan: Record<string, number>;
+  status_warga: Record<string, number>;
+  status_kawin: Record<string, number>;
+  range_umur: Record<string, number>;
+}
+
 interface Polygon {
   id: string;
   nama: string;
   rw: string;
-  jumlah_kk: number;
-  jumlah_penduduk: number;
-  ketua_rw: string;
-  jumlah_rt: number;
-  jumlah_mesjid: number;
   coordinates: [number, number][];
+  ketua_rw: RwKetuaInfo | null;
+  rt_list: RtInfo[];
+  statistics: RwStatistics | null;
 }
 
 const POLYGON_COLORS = [
@@ -49,6 +73,7 @@ export default function Home() {
   );
   const [activeRw, setActiveRw] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<MapViewMode>("polygons");
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     fetchPolygons();
@@ -89,9 +114,18 @@ export default function Home() {
 
   // Stats
   const totalArea = polygons.length;
-  const totalKK = polygons.reduce((sum, p) => sum + p.jumlah_kk, 0);
-  const totalPenduduk = polygons.reduce((sum, p) => sum + p.jumlah_penduduk, 0);
-  const maxPenduduk = Math.max(...polygons.map((p) => p.jumlah_penduduk), 1);
+  const totalWarga = polygons.reduce(
+    (sum, p) => sum + (p.statistics?.total_warga || 0),
+    0,
+  );
+  const totalWargaAktif = polygons.reduce(
+    (sum, p) => sum + (p.statistics?.warga_aktif || 0),
+    0,
+  );
+  const maxWarga = Math.max(
+    ...polygons.map((p) => p.statistics?.total_warga || 0),
+    1,
+  );
 
   // Selected polygon for right sidebar
   const selectedPolygon = useMemo(() => {
@@ -105,9 +139,12 @@ export default function Home() {
     return idx >= 0 ? POLYGON_COLORS[idx % POLYGON_COLORS.length] : "#0d9488";
   }, [selectedPolygonId, polygons]);
 
-  const handlePolygonSelect = (polygon: Polygon) => {
-    setSelectedPolygonId(polygon.id);
-    setActiveRw(polygon.rw);
+  const handlePolygonSelect = (polygonData: { id: string; rw: string }) => {
+    const polygon = polygons.find((p) => p.id === polygonData.id);
+    if (polygon) {
+      setSelectedPolygonId(polygon.id);
+      setActiveRw(polygon.rw);
+    }
   };
 
   const handleRwClick = (rw: string, polygonsInRw: Polygon[]) => {
@@ -116,6 +153,21 @@ export default function Home() {
       setSelectedPolygonId(polygonsInRw[0].id);
     }
   };
+
+  const toggleFullscreen = () => {
+    setIsFullscreen((prev) => !prev);
+  };
+
+  // Handle Escape key to exit fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isFullscreen]);
 
   if (loading) {
     return (
@@ -145,125 +197,153 @@ export default function Home() {
     <div className={darkMode ? "dark" : ""}>
       <div className="bg-[#F8FAFC] dark:bg-[#0F172A] text-slate-800 dark:text-slate-100 transition-colors duration-300 min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-          <div className="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="bg-primary p-2 rounded-lg">
-                <span className="material-symbols-outlined text-white">
-                  map
-                </span>
-              </div>
-              <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-                Peta Interaktif RW
-              </h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <button
-                onClick={toggleDarkMode}
-                className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors"
-              >
-                {darkMode ? (
-                  <span className="material-symbols-outlined text-yellow-400">
-                    light_mode
+        {!isFullscreen && (
+          <header className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+            <div className="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="bg-primary p-2 rounded-lg">
+                  <span className="material-symbols-outlined text-white">
+                    map
                   </span>
-                ) : (
-                  <span className="material-symbols-outlined">dark_mode</span>
-                )}
-              </button>
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-full shadow-lg shadow-primary/20 transition-all active:scale-95"
-              >
-                <span className="material-symbols-outlined text-[20px]">
-                  admin_panel_settings
-                </span>
-                Admin Panel
-              </Link>
+                </div>
+                <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+                  Peta Interaktif RW
+                </h1>
+              </div>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={toggleDarkMode}
+                  className="p-2.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors"
+                >
+                  {darkMode ? (
+                    <span className="material-symbols-outlined text-yellow-400">
+                      light_mode
+                    </span>
+                  ) : (
+                    <span className="material-symbols-outlined">dark_mode</span>
+                  )}
+                </button>
+                <Link
+                  href="/admin"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-full shadow-lg shadow-primary/20 transition-all active:scale-95"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    admin_panel_settings
+                  </span>
+                  Admin Panel
+                </Link>
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
+        )}
 
-        <div className="max-w-[1440px] mx-auto flex min-h-[calc(100vh-80px)]">
+        <div
+          className={
+            isFullscreen
+              ? "fixed inset-0 z-[9999]"
+              : "max-w-[1440px] mx-auto flex min-h-[calc(100vh-80px)]"
+          }
+        >
           {/* Sidebar */}
-          <aside className="w-72 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden lg:block overflow-y-auto">
-            <div className="p-6">
-              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">
-                Daftar Wilayah
-              </p>
-              <nav className="space-y-1">
-                {rwGroups.map(([rw, items]) => (
-                  <div key={rw}>
-                    <button
-                      onClick={() => handleRwClick(rw, items)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all group ${
-                        activeRw === rw
-                          ? "bg-primary/10 text-primary border-r-4 border-primary"
-                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
-                      }`}
-                    >
-                      <span
-                        className={`material-symbols-outlined text-xl transition-colors ${
+          {!isFullscreen && (
+            <aside className="w-72 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden lg:block overflow-y-auto">
+              <div className="p-6">
+                <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">
+                  Daftar Wilayah
+                </p>
+                <nav className="space-y-1">
+                  {rwGroups.map(([rw, items]) => (
+                    <div key={rw}>
+                      <button
+                        onClick={() => handleRwClick(rw, items)}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all group ${
                           activeRw === rw
-                            ? "text-primary"
-                            : "group-hover:text-primary"
+                            ? "bg-primary/10 text-primary border-r-4 border-primary"
+                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
                         }`}
                       >
-                        {activeRw === rw ? "domain" : "location_city"}
-                      </span>
-                      <span
-                        className={
-                          activeRw === rw ? "font-semibold" : "font-medium"
-                        }
-                      >
-                        RW {rw}
-                      </span>
-                      <span className="ml-auto text-xs bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
-                        {items.length}
-                      </span>
-                    </button>
-                    {/* Sub-items when active */}
-                    {activeRw === rw && items.length > 1 && (
-                      <div className="ml-8 mt-1 space-y-1">
-                        {items.map((item) => {
-                          const colorIdx = polygons.findIndex(
-                            (p) => p.id === item.id,
-                          );
-                          return (
-                            <button
-                              key={item.id}
-                              onClick={() => setSelectedPolygonId(item.id)}
-                              className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-all ${
-                                selectedPolygonId === item.id
-                                  ? "bg-primary/5 text-primary font-medium"
-                                  : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
-                              }`}
-                            >
-                              <span
-                                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                                style={{
-                                  backgroundColor:
-                                    POLYGON_COLORS[
-                                      colorIdx % POLYGON_COLORS.length
-                                    ],
-                                }}
-                              />
-                              <span className="truncate">{item.nama}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </nav>
-            </div>
-          </aside>
+                        <span
+                          className={`material-symbols-outlined text-xl transition-colors ${
+                            activeRw === rw
+                              ? "text-primary"
+                              : "group-hover:text-primary"
+                          }`}
+                        >
+                          {activeRw === rw ? "domain" : "location_city"}
+                        </span>
+                        <span
+                          className={
+                            activeRw === rw ? "font-semibold" : "font-medium"
+                          }
+                        >
+                          RW {rw}
+                        </span>
+                        <span className="ml-auto text-xs bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
+                          {items.length}
+                        </span>
+                      </button>
+                      {/* Sub-items when active */}
+                      {activeRw === rw && items.length > 1 && (
+                        <div className="ml-8 mt-1 space-y-1">
+                          {items.map((item) => {
+                            const colorIdx = polygons.findIndex(
+                              (p) => p.id === item.id,
+                            );
+                            return (
+                              <button
+                                key={item.id}
+                                onClick={() => setSelectedPolygonId(item.id)}
+                                className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-all ${
+                                  selectedPolygonId === item.id
+                                    ? "bg-primary/5 text-primary font-medium"
+                                    : "text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                                }`}
+                              >
+                                <span
+                                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                  style={{
+                                    backgroundColor:
+                                      POLYGON_COLORS[
+                                        colorIdx % POLYGON_COLORS.length
+                                      ],
+                                  }}
+                                />
+                                <span className="truncate">{item.nama}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </nav>
+              </div>
+            </aside>
+          )}
 
           {/* Main Content */}
-          <main className="flex-1 px-4 md:px-6 py-8 space-y-8 overflow-y-auto">
+          <main
+            className={
+              isFullscreen
+                ? "w-full h-full"
+                : "flex-1 px-4 md:px-6 py-8 space-y-8 overflow-y-auto"
+            }
+          >
             {/* Map Section */}
-            <section className="relative bg-white dark:bg-slate-800 rounded-large shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 overflow-hidden">
-              <div className="relative w-full h-[350px] lg:h-[450px]">
+            <section
+              className={
+                isFullscreen
+                  ? "relative w-full h-full bg-white dark:bg-slate-900"
+                  : "relative bg-white dark:bg-slate-800 rounded-large shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-800 overflow-hidden"
+              }
+            >
+              <div
+                className={
+                  isFullscreen
+                    ? "relative w-full h-full"
+                    : "relative w-full h-[350px] lg:h-[450px]"
+                }
+              >
                 <MapComponent
                   polygons={polygons}
                   borderCoordinates={borderData.border as [number, number][]}
@@ -271,8 +351,12 @@ export default function Home() {
                   showWhiteBackground={true}
                   focusPolygonId={selectedPolygonId}
                   onPolygonClick={handlePolygonSelect}
+                  isFullscreen={isFullscreen}
+                  onToggleFullscreen={toggleFullscreen}
                 />
-                <div className="map-gradient-overlay absolute inset-0 pointer-events-none" />
+                <div
+                  className={`map-gradient-overlay absolute inset-0 pointer-events-none ${isFullscreen ? "hidden" : ""}`}
+                />
               </div>
               {/* View Mode Toggle */}
               <div className="absolute top-4 right-4 z-[1000] flex bg-white/90 dark:bg-slate-700/90 backdrop-blur rounded-lg shadow-md border border-slate-200 dark:border-slate-600 overflow-hidden">
@@ -320,146 +404,161 @@ export default function Home() {
               <div className="absolute bottom-3 right-3 z-[500] bg-white/90 dark:bg-slate-800/90 backdrop-blur p-1.5 px-3 rounded text-[10px] text-slate-500 dark:text-slate-400">
                 © OpenStreetMap contributors
               </div>
+              {/* ESC hint in fullscreen */}
+              {isFullscreen && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] bg-black/60 text-white text-xs px-4 py-2 rounded-full backdrop-blur">
+                  Tekan{" "}
+                  <kbd className="font-bold bg-white/20 px-1.5 py-0.5 rounded">
+                    ESC
+                  </kbd>{" "}
+                  untuk keluar layar penuh
+                </div>
+              )}
             </section>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white dark:bg-slate-800 p-6 rounded-large shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-6 group hover:border-primary/50 transition-colors">
-                <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">
-                    home_work
-                  </span>
-                </div>
-                <div>
-                  <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                    {totalArea}
-                  </p>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                    Total Area
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-slate-800 p-6 rounded-large shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-6 group hover:border-primary/50 transition-colors">
-                <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">
-                    family_restroom
-                  </span>
-                </div>
-                <div>
-                  <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                    {totalKK.toLocaleString()}
-                  </p>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                    Total KK
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-slate-800 p-6 rounded-large shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-6 group hover:border-primary/50 transition-colors">
-                <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">
-                    groups
-                  </span>
-                </div>
-                <div>
-                  <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
-                    {totalPenduduk.toLocaleString()}
-                  </p>
-                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                    Total Penduduk
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Population Distribution Chart */}
-            <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-large border border-slate-200 dark:border-slate-800">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h3 className="text-lg font-bold">
-                    Distribusi Populasi per Wilayah
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Analisis kepadatan penduduk setiap area
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 bg-slate-100 dark:bg-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full">
-                    <span className="w-2 h-2 rounded-full bg-primary" />
-                    Aktif
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-end justify-between h-56 gap-2 md:gap-4">
-                {polygons.map((polygon, index) => {
-                  const heightPercent =
-                    (polygon.jumlah_penduduk / maxPenduduk) * 100;
-                  const color = POLYGON_COLORS[index % POLYGON_COLORS.length];
-                  const percent =
-                    totalPenduduk > 0
-                      ? Math.round(
-                          (polygon.jumlah_penduduk / totalPenduduk) * 100,
-                        )
-                      : 0;
-                  return (
-                    <div
-                      key={polygon.id}
-                      className="flex-1 rounded-t-lg relative group cursor-pointer transition-all"
-                      style={{
-                        height: `${heightPercent}%`,
-                        backgroundColor: `${color}33`,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = color;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = `${color}33`;
-                      }}
-                      onClick={() => handlePolygonSelect(polygon)}
-                    >
-                      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs py-1.5 px-3 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                        {percent}% ({polygon.jumlah_penduduk} Jiwa)
-                      </div>
+            {!isFullscreen && (
+              <>
+                {/* Stats Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-white dark:bg-slate-800 p-6 rounded-large shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-6 group hover:border-primary/50 transition-colors">
+                    <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-3xl">
+                        home_work
+                      </span>
                     </div>
-                  );
-                })}
-              </div>
+                    <div>
+                      <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                        {totalArea}
+                      </p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Total Area
+                      </p>
+                    </div>
+                  </div>
 
-              <div className="flex justify-between mt-6 px-0.5 text-[10px] md:text-[11px] text-slate-500 font-bold uppercase tracking-wider">
-                {polygons.map((polygon) => (
-                  <span
-                    key={polygon.id}
-                    className="text-center flex-1 truncate px-0.5"
-                  >
-                    {polygon.nama}
-                  </span>
-                ))}
-              </div>
-            </div>
+                  <div className="bg-white dark:bg-slate-800 p-6 rounded-large shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-6 group hover:border-primary/50 transition-colors">
+                    <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-3xl">
+                        family_restroom
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                        {totalWarga.toLocaleString()}
+                      </p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Total Warga
+                      </p>
+                    </div>
+                  </div>
 
-            {/* Footer */}
-            <footer className="py-8 border-t border-slate-200 dark:border-slate-800">
-              <div className="text-center text-slate-500 dark:text-slate-400 text-sm">
-                © 2024 Peta Interaktif RW. Sistem Informasi Pengelolaan Data
-                Warga.
-              </div>
-            </footer>
+                  <div className="bg-white dark:bg-slate-800 p-6 rounded-large shadow-sm border border-slate-100 dark:border-slate-800 flex items-center gap-6 group hover:border-primary/50 transition-colors">
+                    <div className="w-16 h-16 rounded-2xl bg-teal-50 dark:bg-teal-900/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <span className="material-symbols-outlined text-3xl">
+                        groups
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-extrabold text-slate-900 dark:text-white">
+                        {totalWargaAktif.toLocaleString()}
+                      </p>
+                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                        Warga Aktif
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Population Distribution Chart */}
+                <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-large border border-slate-200 dark:border-slate-800">
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h3 className="text-lg font-bold">
+                        Distribusi Populasi per Wilayah
+                      </h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Analisis kepadatan penduduk setiap area
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 bg-slate-100 dark:bg-slate-700 dark:text-slate-300 px-3 py-1.5 rounded-full">
+                        <span className="w-2 h-2 rounded-full bg-primary" />
+                        Aktif
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-end justify-between h-56 gap-2 md:gap-4">
+                    {polygons.map((polygon, index) => {
+                      const warga = polygon.statistics?.total_warga || 0;
+                      const heightPercent = (warga / maxWarga) * 100;
+                      const color =
+                        POLYGON_COLORS[index % POLYGON_COLORS.length];
+                      const percent =
+                        totalWarga > 0
+                          ? Math.round((warga / totalWarga) * 100)
+                          : 0;
+                      return (
+                        <div
+                          key={polygon.id}
+                          className="flex-1 rounded-t-lg relative group cursor-pointer transition-all"
+                          style={{
+                            height: `${heightPercent}%`,
+                            backgroundColor: `${color}33`,
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = color;
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = `${color}33`;
+                          }}
+                          onClick={() => handlePolygonSelect(polygon)}
+                        >
+                          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs py-1.5 px-3 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                            {percent}% ({warga} Jiwa)
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="flex justify-between mt-6 px-0.5 text-[10px] md:text-[11px] text-slate-500 font-bold uppercase tracking-wider">
+                    {polygons.map((polygon) => (
+                      <span
+                        key={polygon.id}
+                        className="text-center flex-1 truncate px-0.5"
+                      >
+                        {polygon.nama}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <footer className="py-8 border-t border-slate-200 dark:border-slate-800">
+                  <div className="text-center text-slate-500 dark:text-slate-400 text-sm">
+                    © 2024 Peta Interaktif RW. Sistem Informasi Pengelolaan Data
+                    Warga.
+                  </div>
+                </footer>
+              </>
+            )}
           </main>
 
           {/* Right Sidebar - RW Detail */}
-          <aside className="w-80 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden xl:block overflow-y-auto">
-            <div className="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm z-10 px-5 pt-5 pb-3 border-b border-slate-100 dark:border-slate-800">
-              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                Detail Wilayah
-              </p>
-            </div>
-            <RwDetailSidebar
-              polygon={selectedPolygon}
-              color={selectedPolygonColor}
-            />
-          </aside>
+          {!isFullscreen && (
+            <aside className="w-80 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden xl:block overflow-y-auto">
+              <div className="sticky top-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm z-10 px-5 pt-5 pb-3 border-b border-slate-100 dark:border-slate-800">
+                <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                  Detail Wilayah
+                </p>
+              </div>
+              <RwDetailSidebar
+                polygon={selectedPolygon}
+                color={selectedPolygonColor}
+              />
+            </aside>
+          )}
         </div>
       </div>
     </div>
